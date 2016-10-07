@@ -1,4 +1,5 @@
-(ns brave-true-clojure.infix)
+(ns brave-true-clojure.infix
+  (:require [clojure.test :refer [function?]]))
 
 (def ^:private operators "operator-symbol -> precedence"
   {'+ 1, '- 1, '* 0, '/ 0, 'quot 0, 'rem 0, 'mod 0})
@@ -12,12 +13,15 @@
 (defn- bad-syntax []
   (throw (IllegalArgumentException. "bad syntax")))
 
+(defn- call? [seq]
+  (list? seq))
+
 (defn- infix-to-rpn
   "Praise Dijkstra for this shunting yard algorithm"
   [tokens]
   (loop [tokens tokens, stack '(), output []]
     (if-let [token (first tokens)]
-      (if (and (sequential? token) (not (symbol? (first token))))
+      (if (and (sequential? token) (not (call? token)))
         (recur (rest tokens) stack (into output (infix-to-rpn token)))
         (if (operator? token)
           (let [last-op (first stack)]
@@ -42,5 +46,7 @@
         (first stack)
         (bad-syntax)))))
 
-(defmacro infix [& tokens]
+(defmacro infix
+  "Use [] for grouping, use () for arbitrary Clojure calls"
+  [& tokens]
   (rpn-to-prefix (infix-to-rpn tokens)))
