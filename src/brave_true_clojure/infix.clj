@@ -11,7 +11,7 @@
 
 (defn- bad-syntax
   ([] (throw (IllegalArgumentException. "bad syntax")))
-  ([token] (throw (IllegalArgumentException. (str "bad syntax: " token)))))
+  ([token] (throw (IllegalArgumentException. (str "bad token: " token)))))
 
 (defn- infix-to-rpn
   "Praise Dijkstra for this shunting yard algorithm"
