@@ -17,7 +17,7 @@
   [tokens]
   (loop [tokens tokens, stack '(), output []]
     (if-let [token (first tokens)]
-      (if (and (sequential? token) (number? (first token)))
+      (if (and (sequential? token) (not (symbol? (first token))))
         (recur (rest tokens) stack (into output (infix-to-rpn token)))
         (if (operator? token)
           (let [last-op (first stack)]
