@@ -1,5 +1,4 @@
-(ns brave-true-clojure.infix
-  (:require [clojure.test :refer [function?]]))
+(ns brave-true-clojure.infix)
 
 (def ^:private operators "operator-symbol -> precedence"
   {'+ 1, '- 1, '* 0, '/ 0, 'quot 0, 'rem 0, 'mod 0})
