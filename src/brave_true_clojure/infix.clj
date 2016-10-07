@@ -10,9 +10,6 @@
 (defn- precedence [token]
   (operators token))
 
-(defn- bad-syntax []
-  (throw (IllegalArgumentException. "bad syntax")))
-
 (defn- call? [seq]
   (list? seq))
 
@@ -30,6 +27,9 @@
               (recur (rest tokens) (cons token stack) output)))
           (recur (rest tokens) stack (conj output token))))
       (into output stack))))
+
+(defn- bad-syntax []
+  (throw (IllegalArgumentException. "bad syntax")))
 
 (defn- rpn-to-prefix [rpn]
   (loop [tokens rpn, stack '()]
