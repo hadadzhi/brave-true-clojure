@@ -9,15 +9,12 @@
 (defn- precedence [token]
   (operators token))
 
-(defn- call? [seq]
-  (list? seq))
-
 (defn- infix-to-rpn
   "Praise Dijkstra for this shunting yard algorithm"
   [tokens]
   (loop [tokens tokens, stack '(), output []]
     (if-let [token (first tokens)]
-      (if (and (sequential? token) (not (call? token)))
+      (if (vector? token)
         (recur (rest tokens) stack (into output (infix-to-rpn token)))
         (if (operator? token)
           (let [last-op (first stack)]
