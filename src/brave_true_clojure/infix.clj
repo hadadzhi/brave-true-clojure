@@ -9,40 +9,35 @@
 (defn- precedence [token]
   (operators token))
 
-(defn- bad-syntax
-  ([] (throw (IllegalArgumentException. "bad syntax")))
-  ([token] (throw (IllegalArgumentException. (str "bad token: " token)))))
+(defn- bad-syntax []
+  (throw (IllegalArgumentException. "bad syntax")))
 
 (defn- infix-to-rpn
   "Praise Dijkstra for this shunting yard algorithm"
   [tokens]
   (loop [tokens tokens, stack '(), output []]
     (if-let [token (first tokens)]
-      (if (number? token)
-        (recur (rest tokens) stack (conj output token))
-        (if (sequential? token)
-          (recur (rest tokens) stack (into output (infix-to-rpn token)))
-          (if (operator? token)
-            (let [last-op (first stack)]
-              (if (and last-op (<= (precedence last-op) (precedence token)))
-                (recur tokens (rest stack) (conj output (first stack)))
-                (recur (rest tokens) (cons token stack) output)))
-            (bad-syntax token))))
+      (if (and (sequential? token) (number? (first token)))
+        (recur (rest tokens) stack (into output (infix-to-rpn token)))
+        (if (operator? token)
+          (let [last-op (first stack)]
+            (if (and last-op (<= (precedence last-op) (precedence token)))
+              (recur tokens (rest stack) (conj output (first stack)))
+              (recur (rest tokens) (cons token stack) output)))
+          (recur (rest tokens) stack (conj output token))))
       (into output stack))))
 
 (defn- rpn-to-prefix [rpn]
   (loop [tokens rpn, stack '()]
     (if-let [token (first tokens)]
-      (if (number? token)
-        (recur (rest tokens) (cons token stack))
-        (if (operator? token)
-          (let [left (second stack),
-                right (first stack),
-                stack (rest (rest stack))]
-            (if (and left right)
-              (recur (rest tokens) (cons (list token left right) stack))
-              (bad-syntax)))
-          (bad-syntax token)))
+      (if (operator? token)
+        (let [left (second stack),
+              right (first stack),
+              stack (rest (rest stack))]
+          (if (and left right)
+            (recur (rest tokens) (cons (list token left right) stack))
+            (bad-syntax)))
+        (recur (rest tokens) (cons token stack)))
       (if (= 1 (count stack))
         (first stack)
         (bad-syntax)))))
