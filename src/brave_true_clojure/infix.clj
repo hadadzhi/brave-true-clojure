@@ -10,7 +10,7 @@
   (operators token))
 
 (defn- infix-to-rpn
-  "Praise Dijkstra for this shunting yard algorithm"
+  "Praise Dijkstra for this shunting-yard algorithm"
   [tokens]
   (loop [tokens tokens, stack '(), output []]
     (if-let [token (first tokens)]
