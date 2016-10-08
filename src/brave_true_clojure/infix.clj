@@ -20,7 +20,7 @@
           (let [last-op (first stack)]
             (if (and last-op (<= (precedence last-op) (precedence token)))
               (recur tokens (rest stack) (conj output (first stack)))
-              (recur (rest tokens) (cons token stack) output)))
+              (recur (rest tokens) (conj stack token) output)))
           (recur (rest tokens) stack (conj output token))))
       (into output stack))))
 
@@ -35,9 +35,9 @@
               right (first stack),
               stack (rest (rest stack))]
           (if (and left right)
-            (recur (rest tokens) (cons (list token left right) stack))
+            (recur (rest tokens) (conj stack (list token left right)))
             (bad-syntax)))
-        (recur (rest tokens) (cons token stack)))
+        (recur (rest tokens) (conj stack token)))
       (if (= 1 (count stack))
         (first stack)
         (bad-syntax)))))
