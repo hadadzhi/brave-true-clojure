@@ -46,12 +46,9 @@
         (recur (rest tokens) token))
       true)))
 
-(defn- bad-syntax []
-  (throw (IllegalArgumentException. "bad syntax")))
-
 (defmacro infix
   "Use [] for grouping, use () for arbitrary Clojure calls"
   [& tokens]
   (if (valid-infix? tokens)
     (rpn-to-prefix (infix-to-rpn tokens))
-    (bad-syntax)))
+    (throw (IllegalArgumentException. "bad syntax"))))
