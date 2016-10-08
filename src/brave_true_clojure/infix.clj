@@ -14,18 +14,15 @@
   [tokens]
   (loop [tokens tokens, stack '(), output []]
     (if-let [token (first tokens)]
-      (if (vector? token)
-        (recur (rest tokens) stack (into output (infix-to-rpn token)))
-        (if (operator? token)
-          (let [last-op (first stack)]
-            (if (and last-op (<= (precedence last-op) (precedence token)))
-              (recur tokens (rest stack) (conj output (first stack)))
-              (recur (rest tokens) (conj stack token) output)))
+      (if (operator? token)
+        (let [last-op (first stack)]
+          (if (and last-op (<= (precedence last-op) (precedence token)))
+            (recur tokens (rest stack) (conj output (first stack)))
+            (recur (rest tokens) (conj stack token) output)))
+        (if (vector? token)
+          (recur (rest tokens) stack (into output (infix-to-rpn token)))
           (recur (rest tokens) stack (conj output token))))
       (into output stack))))
-
-(defn- bad-syntax []
-  (throw (IllegalArgumentException. "bad syntax")))
 
 (defn- rpn-to-prefix [rpn]
   (loop [tokens rpn, stack '()]
@@ -34,15 +31,27 @@
         (let [left (second stack),
               right (first stack),
               stack (rest (rest stack))]
-          (if (and left right)
-            (recur (rest tokens) (conj stack (list token left right)))
-            (bad-syntax)))
+          (recur (rest tokens) (conj stack (list token left right))))
         (recur (rest tokens) (conj stack token)))
-      (if (= 1 (count stack))
-        (first stack)
-        (bad-syntax)))))
+      (first stack))))
+
+(defn- valid-infix? [infix-tokens]
+  (loop [tokens infix-tokens, last nil]
+    (if-let [token (first tokens)]
+      (if (operator? token)
+        (let [next (first (rest tokens))]
+          (if (and last next (not (operator? last)) (not (operator? next)))
+            (recur (rest tokens) token)
+            false))
+        (recur (rest tokens) token))
+      true)))
+
+(defn- bad-syntax []
+  (throw (IllegalArgumentException. "bad syntax")))
 
 (defmacro infix
   "Use [] for grouping, use () for arbitrary Clojure calls"
   [& tokens]
-  (rpn-to-prefix (infix-to-rpn tokens)))
+  (if (valid-infix? tokens)
+    (rpn-to-prefix (infix-to-rpn tokens))
+    (bad-syntax)))
