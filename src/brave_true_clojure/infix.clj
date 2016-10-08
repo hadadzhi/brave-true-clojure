@@ -38,12 +38,14 @@
 (defn- valid-infix? [infix-tokens]
   (loop [tokens infix-tokens, last nil]
     (if-let [token (first tokens)]
-      (if (operator? token)
-        (let [next (first (rest tokens))]
+      (let [next (first (rest tokens))]
+        (if (operator? token)
           (if (and last next (not (operator? last)) (not (operator? next)))
             (recur (rest tokens) token)
-            false))
-        (recur (rest tokens) token))
+            false)
+          (if (and next (not (operator? next)))
+            false
+            (recur (rest tokens) token))))
       true)))
 
 (defmacro infix
