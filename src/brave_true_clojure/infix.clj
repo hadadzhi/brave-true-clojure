@@ -41,11 +41,12 @@
       (let [next (first (rest tokens))]
         (if (operator? token)
           (if (and last next (not (operator? last)) (not (operator? next)))
-            (recur (rest tokens) token)
-            false)
-          (if (and next (not (operator? next)))
-            false
-            (recur (rest tokens) token))))
+            (recur (rest tokens) token))
+          (if (vector? token)
+            (if (valid-infix? token)
+              (recur (rest tokens) token))
+            (if-not (and next (not (operator? next)))
+              (recur (rest tokens) token)))))
       true)))
 
 (defmacro infix
