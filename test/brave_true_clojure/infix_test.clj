@@ -1,4 +1,4 @@
-(ns brave-true-clojure.infix_test
+(ns brave-true-clojure.infix-test
   (:require [clojure.test :refer :all]
             [brave-true-clojure.infix :refer :all]))
 
@@ -20,9 +20,10 @@
 (deftest bad-syntax
   (testing "Bad syntax"
     (let [valid-infix? #'brave-true-clojure.infix/valid-infix?]
+      (is (not (valid-infix? ['+])))
       (is (not (valid-infix? [])))
       (is (not (valid-infix? [[]])))
-      (is (not (valid-infix? [[] + 1])))
-      (is (not (valid-infix? [1 - 2 +])))
-      (is (not (valid-infix? [+ 1 - 2])))
+      (is (not (valid-infix? [[] '+ 1])))
+      (is (not (valid-infix? [1 - 2 '+])))
+      (is (not (valid-infix? ['+ 1 - 2])))
       (is (not (valid-infix? [1 2]))))))
