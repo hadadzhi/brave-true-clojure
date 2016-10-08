@@ -35,19 +35,23 @@
         (recur (rest tokens) (conj stack token)))
       (first stack))))
 
-(defn- valid-infix? [infix-tokens]
-  (loop [tokens infix-tokens, last nil]
-    (if-let [token (first tokens)]
-      (let [next (first (rest tokens))]
-        (if (operator? token)
-          (if (and last next (not (operator? last)) (not (operator? next)))
-            (recur (rest tokens) token))
-          (if (vector? token)
-            (if (valid-infix? token)
-              (recur (rest tokens) token))
-            (if-not (and next (not (operator? next)))
-              (recur (rest tokens) token)))))
-      true)))
+(defn- valid-infix? [tokens]
+  (if (seq tokens)
+    (loop [tokens tokens, prev nil]
+      (if-let [curr (first tokens)]
+        (let [next (first (rest tokens))]
+          (if (operator? curr)
+            (if (and prev next (not (operator? prev)) (not (operator? next)))
+              (recur (rest tokens) curr))
+            (if (vector? curr)
+              (if (valid-infix? curr)
+                (recur (rest tokens) curr))
+              (if (or (and (not prev) (not next))
+                      (and (not prev) (operator? next))
+                      (and (not next) (operator? prev))
+                      (and (operator? prev) (operator? next)))
+                (recur (rest tokens) curr)))))
+        true))))
 
 (defmacro infix
   "Use [] for grouping, use () for arbitrary Clojure calls"
