@@ -26,4 +26,6 @@
       (is (not (valid-infix? [[] '+ 1])))
       (is (not (valid-infix? [1 - 2 '+])))
       (is (not (valid-infix? ['+ 1 - 2])))
-      (is (not (valid-infix? [1 2]))))))
+      (is (not (valid-infix? [1 2])))
+      (is (not (valid-infix? [1 [2]])))
+      (is (not (valid-infix? [[1] 2]))))))
