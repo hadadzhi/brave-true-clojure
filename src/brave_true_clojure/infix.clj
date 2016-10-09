@@ -12,7 +12,7 @@
 (defn- infix-to-rpn
   "Praise Dijkstra for this shunting-yard algorithm"
   [tokens]
-  (loop [tokens tokens, stack '(), output []]
+  (loop [tokens tokens, stack (), output []]
     (if-let [token (first tokens)]
       (if (operator? token)
         (let [last-op (first stack)]
@@ -25,7 +25,7 @@
       (into output stack))))
 
 (defn- rpn-to-prefix [rpn]
-  (loop [tokens rpn, stack '()]
+  (loop [tokens rpn, stack ()]
     (if-let [token (first tokens)]
       (if (operator? token)
         (let [left (second stack),
