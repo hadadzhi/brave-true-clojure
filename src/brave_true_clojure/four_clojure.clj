@@ -1,7 +1,9 @@
 (ns brave-true-clojure.four-clojure)
 
-(defn fac [n] (if (< n 0) (throw (new IllegalArgumentException))
-                          (reduce * (range 1N (inc n)))))
+(defn fac [n]
+  (if (< n 0)
+    (throw (new IllegalArgumentException))
+    (reduce *' (range 1 (inc n)))))
 
 (defn fib-seq []
   ((fn fib-internal [curr next]
