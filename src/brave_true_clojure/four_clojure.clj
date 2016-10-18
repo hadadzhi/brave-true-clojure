@@ -211,3 +211,13 @@
     (if (= 2 (count card-str))
       {:suit (suits (first card-str)),
        :rank (ranks (second card-str))})))
+
+;; LCM
+(defn lcm
+  ([a] a)
+  ([a b]
+   (letfn [(gcd [a b] (if (= 0 b) a (recur b (rem a b))))
+           (abs [x] (if (< x 0) (- x) x))]
+     (if (= 0 a b) 0 (/ (abs (* a b)) (gcd a b)))))
+  ([a b & args]
+   (apply lcm (lcm a b) args)))
