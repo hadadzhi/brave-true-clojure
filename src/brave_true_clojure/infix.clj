@@ -17,7 +17,7 @@
       (if (operator? token)
         (let [last-op (first stack)]
           (if (and last-op (<= (precedence last-op) (precedence token)))
-            (recur tokens (rest stack) (conj output (first stack)))
+            (recur tokens (rest stack) (conj output last-op))
             (recur (rest tokens) (conj stack token) output)))
         (if (vector? token)
           (recur (rest tokens) stack (into output (infix-to-rpn token)))
