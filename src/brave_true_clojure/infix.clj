@@ -19,9 +19,9 @@
           (if (and last-op (<= (precedence last-op) (precedence token)))
             (recur tokens (rest stack) (conj output last-op))
             (recur (rest tokens) (conj stack token) output)))
-        (if (vector? token)
-          (recur (rest tokens) stack (into output (infix-to-rpn token)))
-          (recur (rest tokens) stack (conj output token))))
+        (recur (rest tokens) stack (if (vector? token)
+                                     (into output (infix-to-rpn token))
+                                     (conj output token))))
       (into output stack))))
 
 (defn- rpn-to-prefix [rpn]
