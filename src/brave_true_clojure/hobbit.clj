@@ -21,17 +21,17 @@
                              {:name "left-foot" :size 2}])
 
 (defn right-part [part]
- {:name (clojure.string/replace (part :name) #"^left-" "right-")
-  :size (part :size)})
+  {:name (clojure.string/replace (part :name) #"^left-" "right-")
+   :size (part :size)})
 
 (defn symmetrize-parts [parts]
- (reduce #(into %1 (set [%2 (right-part %2)])) [] parts))
+  (reduce #(into %1 (set [%2 (right-part %2)])) [] parts))
 
 (defn hit [asym-body-parts]
- (let [body-parts (symmetrize-parts asym-body-parts)
-       body-size (reduce + (map :size body-parts))
-       target (rand body-size)
-       detect-hit (fn [prev-acc-size part]
-                   (let [acc-size (+ prev-acc-size (part :size))]
-                    (if (> acc-size target) (reduced part) acc-size)))]
-  (reduce detect-hit 0 body-parts)))
+  (let [body-parts (symmetrize-parts asym-body-parts)
+        body-size (reduce + (map :size body-parts))
+        target (rand body-size)
+        detect-hit (fn [prev-acc-size part]
+                     (let [acc-size (+ prev-acc-size (part :size))]
+                       (if (> acc-size target) (reduced part) acc-size)))]
+    (reduce detect-hit 0 body-parts)))
