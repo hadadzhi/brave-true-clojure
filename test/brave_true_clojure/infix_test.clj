@@ -17,8 +17,8 @@
            (infix (Math/sin (infix Math/PI / 2))))))
 
   (testing "Symbols"
-    (let [x 2, y 3]
-      (is (= (* x y) (infix x * y)))))
+    (let [x 1, y 2, z 3]
+      (is (= (/ (* x y) z) (infix x * y / z)))))
 
   (testing "Bad syntax"
     (let [valid-infix? #'brave-true-clojure.infix/valid-infix?]
