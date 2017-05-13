@@ -221,3 +221,13 @@
      (if (= 0 a b) 0 (/ (abs (* a b)) (gcd a b)))))
   ([a b & args]
    (apply lcm (lcm a b) args)))
+
+;; 96 Beauty is Symmetry
+(defn mirror? [l r]
+  (or (= nil l r)
+      (and (= (first l) (first r))
+           (mirror? (second l) (last r))
+           (mirror? (second r) (last l)))))
+
+(defn symmetric? [tree]
+  (mirror? (first tree) (last tree)))
