@@ -248,3 +248,23 @@
                      (+ 1 (self self i j-1))
                      (+ c (self self i-1 j-1))))))]
     (d (memoize d) (count a) (count b))))
+
+;; 92 Read Roman numerals
+(defn roman-to-decimal [roman-str]
+  (let [r->d {\I 1, \V 5, \X 10, \L 50, \C 100, \D 500, \M 1000}]
+    (loop [str roman-str, prev 0, output 0]
+      (if-let [curr (r->d (first str))]
+        (if (< prev curr)
+          (recur (rest str) curr (+' (-' output prev) (-' curr prev)))
+          (recur (rest str) curr (+' output curr)))
+        output))))
+
+;; 86 Happy numbers
+(defn happy? [number]
+  (case number
+    1 true
+    4 false
+    (recur (->> (str number)
+                (map #(- (int %) 48))
+                (map #(* % %))
+                (reduce +)))))
