@@ -1,4 +1,4 @@
-(ns brave-true-clojure.concurrent)
+(ns concurrent)
 
 (defn give-gift [giver-ref receiver-ref]
   (dosync

@@ -1,4 +1,4 @@
-(ns brave-true-clojure.wrand)
+(ns wrand)
 
 (defn wrand [slices]
   (let [total (reduce + slices), r (rand total)]

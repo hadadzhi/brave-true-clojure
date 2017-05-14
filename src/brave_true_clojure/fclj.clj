@@ -1,4 +1,4 @@
-(ns brave-true-clojure.four-clojure)
+(ns fclj)
 
 (defn fac [n]
   (if (< n 0)
