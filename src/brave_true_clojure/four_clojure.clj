@@ -231,3 +231,19 @@
 
 (defn symmetric? [tree]
   (mirror? (first tree) (last tree)))
+
+;; 98 Equivalence classes
+(defn eq-classes [function domain]
+  (set (map set (vals (group-by function domain)))))
+
+;; 101 Levenshtein distance
+(defn levend [a b]
+  (let [d (fn [self i j]
+            (let [ind (if (not= (get a (dec i))
+                                (get b (dec j))) 1 0)]
+              (if (= 0 (min i j))
+                (max i j)
+                (min (+ 1 (self self (dec i) j))
+                     (+ 1 (self self i (dec j)))
+                     (+ ind (self self (dec i) (dec j)))))))]
+    (d (memoize d) (count a) (count b))))
