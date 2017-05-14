@@ -239,11 +239,12 @@
 ;; 101 Levenshtein distance
 (defn levend [a b]
   (let [d (fn [self i j]
-            (let [ind (if (not= (get a (dec i))
-                                (get b (dec j))) 1 0)]
+            (let [i-1 (dec i)
+                  j-1 (dec j)
+                  c (if (not= (get a i-1) (get b j-1)) 1 0)]
               (if (= 0 (min i j))
                 (max i j)
-                (min (+ 1 (self self (dec i) j))
-                     (+ 1 (self self i (dec j)))
-                     (+ ind (self self (dec i) (dec j)))))))]
+                (min (+ 1 (self self i-1 j))
+                     (+ 1 (self self i j-1))
+                     (+ c (self self i-1 j-1))))))]
     (d (memoize d) (count a) (count b))))
