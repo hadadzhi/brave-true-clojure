@@ -261,10 +261,10 @@
 
 ;; 86 Happy numbers
 (defn happy? [number]
-  (case number
-    1 true
-    4 false
-    (recur (->> (str number)
-                (map #(- (int %) 48))
-                (map #(* % %))
-                (reduce +)))))
+  (cond
+    (== 1 number) true
+    (== 4 number) false
+    :else (recur (->> (str number)
+                      (map #(- (int %) 48))
+                      (map #(* % %))
+                      (reduce +)))))
