@@ -1,4 +1,5 @@
-(ns fclj)
+(ns fclj
+  (:import (clojure.lang ArityException)))
 
 (defn fac [n]
   (if (< n 0)
@@ -255,8 +256,8 @@
     (loop [str roman-str, prev 0, output 0]
       (if-let [curr (r->d (first str))]
         (if (< prev curr)
-          (recur (rest str) curr (+' (-' output prev) (-' curr prev)))
-          (recur (rest str) curr (+' output curr)))
+          (recur (rest str) curr (+ (- output prev) (- curr prev)))
+          (recur (rest str) curr (+ output curr)))
         output))))
 
 ;; 86 Happy numbers
@@ -268,3 +269,52 @@
                       (map #(- (int %) 48))
                       (map #(* % %))
                       (reduce +)))))
+
+;; 146 Trees into tables
+(defn mflatten [m]
+  (into {}
+        (for [[k im] m,
+              [ik v] im]
+          [[k ik] v])))
+
+;; 153 Pairwise Disjoint Sets
+(defn disjoint? [sets]
+  (== (count (reduce into #{} sets))
+      (reduce + (map count sets))))
+
+(defn disjoint?-slower [sets]
+  (apply distinct? (apply concat sets)))
+
+;; 158 Decurry
+(defn decurry-iter
+  "Uglier and slower!"
+  [f]
+  (fn [& args]
+    (let [throw-arity #(throw (ArityException. (count args) (str f)))]
+      ((fn [ifunc iargs]
+         (if-let [first-arg (first iargs)]
+           (let [ret (ifunc first-arg)]
+             (if (fn? ret)
+               (if-let [rest-args (rest iargs)]
+                 (recur ret rest-args)
+                 (throw-arity))
+               (if (empty? (rest iargs))
+                 ret
+                 (throw-arity))))
+           (throw-arity)))
+        f args))))
+
+(defn decurry-reduce
+  "Prettier and faster!"
+  [f]
+  (fn [& args]
+    (let [throw-arity #(throw (ArityException. (count args) (str f)))
+          result (reduce #(if (fn? %1) (%1 %2) (throw-arity)) f args)]
+      (if (fn? result) (throw-arity) result))))
+
+;; 132 Insert between
+(defn insert
+  "Returns a seq of 'coll' elements with 'item' inserted
+   between each two consecutive elements that satisfy two-argument 'pred?'"
+  [item pred? [h & t :as coll]]
+  (if h (cons h (mapcat #(if (pred? %1 %2) [item %2] [%2]) coll t))))

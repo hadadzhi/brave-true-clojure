@@ -22,3 +22,12 @@
   (flatten
     (map (partial map (partial apply str))
          (ffl/combs "IVXLCDM" max-len))))
+
+(defn flatten- [coll]
+  (if (sequential? coll)
+    (lazy-seq
+      (reduce #(if (sequential? %2)
+                 (into %1 (flatten- %2))
+                 (conj %1 %2))
+              [] coll))
+    (lazy-seq)))
