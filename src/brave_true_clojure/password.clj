@@ -45,7 +45,7 @@
 (defn gen-password
   "Produces a random string of the specified length
    made of chars specified by char-sets.
-   An element of char-sets must a be either a sequence of characters
+   An element of char-sets must be either a sequence of characters
    or one of the keywords (:small :capital :digits).
    The default length and character set is 32
    and small and capital characters and digits."
