@@ -1,5 +1,6 @@
 (ns password
-  (:import (java.security SecureRandom)))
+  (:import (java.security SecureRandom))
+  (:use [ffl :only [char-range]]))
 
 (def ^:private secure-random (SecureRandom.))
 
@@ -12,16 +13,6 @@
                         (>= % 0)
                         (< % upper-bound)]}
   (.nextInt secure-random upper-bound))
-
-(defn- char-range
-  "Returns a sequence of chars from a to b inclusive."
-  [a b] {:pre  [(char? a)
-                (char? b)]
-         :post [(seq? %)
-                (every? char? %)]}
-  (map char
-       (range (int a)
-              (inc (int b)))))
 
 (def ^:private predefined-char-sets
   {:small   (char-range \a \z)

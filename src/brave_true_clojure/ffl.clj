@@ -31,3 +31,13 @@
                  (conj %1 %2))
               [] coll))
     (lazy-seq)))
+
+(defn char-range
+  "Returns a sequence of chars from a to b inclusive."
+  [a b] {:pre  [(char? a)
+                (char? b)]
+         :post [(seq? %)
+                (every? char? %)]}
+  (map char
+       (range (int a)
+              (inc (int b)))))
