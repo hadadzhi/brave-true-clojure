@@ -46,13 +46,17 @@
   "Produces a random string of the specified length
    that's made of chars specified in char-sets.
    An element of char-sets may a be a sequence of characters
-   or one of (:small :capital :digits)"
-  [length & char-sets] {:pre  [(integer? length)
-                               (> length 0)]
-                        :post [(string? %)
-                               (== length (count %))]}
-  (let [cs (create-char-set char-sets)
-        csl (count cs)]
-    (apply str
-           (take length
-                 (repeatedly #(cs (secure-random-index csl)))))))
+   or one of the keywords (:small :capital :digits).
+   The default length and character set is 32
+   and small and capital characters and digits."
+  ([length & char-sets] {:pre  [(integer? length)
+                                (> length 0)]
+                         :post [(string? %)
+                                (== length (count %))]}
+   (let [cs (create-char-set char-sets)
+         csl (count cs)]
+     (apply str
+            (take length
+                  (repeatedly #(cs (secure-random-index csl)))))))
+  ([length] (gen-password length :small :capital :digits))
+  ([] (gen-password 32)))
