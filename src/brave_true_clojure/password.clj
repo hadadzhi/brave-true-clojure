@@ -28,7 +28,7 @@
    :capital (char-range \A \Z)
    :digits  (char-range \0 \9)})
 
-(defn- create-char-set
+(defn- char-vec
   "Returns a vector of characters specified by char-sets."
   [char-sets] {:pre  [(seq char-sets)
                       (every? #(or (predefined-char-sets %)
@@ -53,7 +53,7 @@
                                 (> length 0)]
                          :post [(string? %)
                                 (== length (count %))]}
-   (let [cs (create-char-set char-sets)
+   (let [cs (char-vec char-sets)
          csl (count cs)]
      (apply str
             (take length
