@@ -51,8 +51,8 @@
                                (> length 0)]
                         :post [(string? %)
                                (== length (count %))]}
-  (let [char-set (create-char-set char-sets)
-        char-set-length (count char-set)]
+  (let [cs (create-char-set char-sets)
+        csl (count cs)]
     (apply str
            (take length
-                 (repeatedly #(char-set (secure-random-index char-set-length)))))))
+                 (repeatedly #(cs (secure-random-index csl)))))))
