@@ -48,7 +48,7 @@
    An element of char-sets must be either a sequence of characters
    or one of the keywords (:small :capital :digits).
    The default length and character set is 32
-   and small and capital characters and digits."
+   and small and capital letters and digits."
   ([length & char-sets] {:pre  [(integer? length)
                                 (> length 0)]
                          :post [(string? %)
