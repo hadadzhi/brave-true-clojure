@@ -11,8 +11,8 @@
       (cons x more))))
 
 (defn combs
-  "Returns all possible combinations with length
-   less than or equal to max-len of elems."
+  "Returns all possible combinations of elems
+   with length less than or equal to max-len."
   [elems max-len]
   (for [l (range 1 (inc max-len))]
     (apply cartesian (repeat l (set elems)))))
