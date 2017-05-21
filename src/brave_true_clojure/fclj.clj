@@ -47,10 +47,15 @@
                             (if (and x y (> y x))
                               (cons x (asc-seq (rest s)))
                               (list x))))))]
-              (if (empty? (rest coll)) (list (asc-seq coll))
-                                       (cons (asc-seq coll) (find-asc-seqs (rest coll))))))]
-    (let [seqs (filter #(> (count %) 1) (reverse (find-asc-seqs coll)))]
-      (if (seq seqs) (apply max-key count seqs) ()))))
+              (if (empty? (rest coll))
+                (list (asc-seq coll))
+                (cons (asc-seq coll)
+                      (find-asc-seqs (rest coll))))))]
+    (let [seqs (filter #(> (count %) 1)
+                       (reverse (find-asc-seqs coll)))]
+      (if (seq seqs)
+        (apply max-key count seqs)
+        ()))))
 
 ;; #55 Count occurences
 (defn wc [coll]
@@ -81,7 +86,9 @@
   (letfn [(factor? [n x]
             (zero? (rem n x)))
           (divisors [n]
-            (conj (set (filter #(factor? n %) (range 2 (inc (Math/sqrt n))))) 1 n))
+            (conj (set (filter #(factor? n %)
+                               (range 2 (inc (Math/sqrt n)))))
+                  1 n))
           (prime? [n]
             (= 2 (count (divisors n))))]
     (take n (filter #(prime? %) (iterate inc 1)))))
@@ -171,10 +178,12 @@
   "Returns the first common element in the given
   possibly infinite, sorted in increasing order sequences"
   [& seqs]
-  (let [heads (map first seqs), max-head (apply max heads)]
+  (let [heads (map first seqs)
+        max-head (apply max heads)]
     (if (apply = heads)
       max-head
-      (recur (map (fn [seq] (drop-while (fn [e] (< e max-head)) seq)) seqs)))))
+      (recur (map #(drop-while (fn [e] (< e max-head)) %)
+                  seqs)))))
 
 ;; #99 Digits
 (defn digits [n]
@@ -189,7 +198,9 @@
 
 ;; 97 Pascal triangle
 (defn pascal-row "1-based n" [n]
-  (letfn [(elem [n k] (if (= 0 k) 1 (* (elem n (dec k)) (/ (- (inc n) k) k))))]
+  (letfn [(elem [n k] (if (= 0 k)
+                        1
+                        (* (elem n (dec k)) (/ (- (inc n) k) k))))]
     (let [n (dec n), elem (partial elem n)]
       (vec (map elem (range 0 (inc n)))))))
 
