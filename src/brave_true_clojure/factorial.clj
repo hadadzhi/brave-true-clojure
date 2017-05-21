@@ -1,8 +1,6 @@
 (ns brave-true-clojure.factorial
   (:require [clojure.core.reducers :refer [fold]]))
 
-(def fac
-  (fn [n]
-    (if (< n 0)
-      (throw (IllegalArgumentException.))
-      (fold *' (vec (range 1 (inc n)))))))
+(defn fac [n] {:pre  [(>= n 0)]
+               :post [(integer? %)]}
+  (fold *' (vec (range 1 (inc n)))))
