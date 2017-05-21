@@ -3,4 +3,6 @@
 
 (defn fac [n] {:pre  [(>= n 0)]
                :post [(integer? %)]}
-  (fold *' (vec (range 1 (inc n)))))
+  (if (< n 21)
+    (if (== 0 n) 1 (* n (fac (- n 1))))
+    (fold *' (vec (range 1 (inc n))))))
