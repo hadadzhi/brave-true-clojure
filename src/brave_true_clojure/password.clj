@@ -1,6 +1,6 @@
 (ns password
   (:import (java.security SecureRandom))
-  (:use [ffl :only [char-range]]))
+  (:require [ffl :refer [char-range]]))
 
 (def ^:private secure-random (SecureRandom.))
 
