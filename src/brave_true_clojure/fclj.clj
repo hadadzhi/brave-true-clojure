@@ -178,11 +178,13 @@
   "Returns the first common element in the given
   possibly infinite, sorted in increasing order sequences"
   [& seqs]
-  (let [heads (map first seqs)
-        max-head (apply max heads)]
+  (let [heads (map first seqs), max-head (apply max heads)]
     (if (apply = heads)
       max-head
-      (recur (map #(drop-while (fn [e] (< e max-head)) %)
+      (recur (map (fn [seq]
+                    (drop-while (fn [e]
+                                  (< e max-head))
+                                seq))
                   seqs)))))
 
 ;; #99 Digits
