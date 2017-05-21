@@ -1,6 +1,6 @@
 (ns brave-true-clojure.infix-test
   (:require [clojure.test :refer :all]
-            [infix :refer :all]))
+            [brave-true-clojure.infix :refer :all]))
 
 (deftest infix-macro
   (testing "Operators and precedence"
@@ -21,7 +21,7 @@
       (is (= (/ (* x y) z) (infix x * y / z)))))
 
   (testing "Bad syntax"
-    (let [valid-infix? #'infix/valid-infix?]
+    (let [valid-infix? #'brave-true-clojure.infix/valid-infix?]
       (is (not (valid-infix? ['+])))
       (is (not (valid-infix? [])))
       (is (not (valid-infix? [[]])))
