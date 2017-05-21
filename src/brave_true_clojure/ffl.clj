@@ -1,4 +1,4 @@
-(ns ffl)
+(ns brave-true-clojure.ffl)
 
 (defn cartesian
   "Returns the cartesian product of the arguments as a list of lists.
@@ -21,7 +21,7 @@
   [max-len]
   (flatten
     (map (partial map (partial apply str))
-         (ffl/combs "IVXLCDM" max-len))))
+         (combs "IVXLCDM" max-len))))
 
 (defn flatten- [coll]
   (if (sequential? coll)

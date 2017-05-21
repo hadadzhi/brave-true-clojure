@@ -1,4 +1,4 @@
-(ns fclj
+(ns brave-true-clojure.fclj
   (:import (clojure.lang ArityException)))
 
 (defn fac [n]

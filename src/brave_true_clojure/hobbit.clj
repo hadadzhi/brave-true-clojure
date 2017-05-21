@@ -1,4 +1,4 @@
-(ns hobbit)
+(ns brave-true-clojure.hobbit)
 
 (def asym-hobbit-body-parts [{:name "head" :size 3}
                              {:name "left-eye" :size 1}

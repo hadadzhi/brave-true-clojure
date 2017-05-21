@@ -1,4 +1,4 @@
-(ns factorial
+(ns brave-true-clojure.factorial
   (:require [clojure.core.reducers :refer [fold]]))
 
 (def fac
