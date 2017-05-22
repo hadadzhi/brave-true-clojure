@@ -11,16 +11,22 @@
      (lazy-seq (cons curr (fib-internal next (+ curr next))))) 1N 1N))
 
 ;; #43 Reverse interleave
-(defn reverse-interleave [coll n]
+(defn reverse-interleave-1 [coll n]
   (letfn [(keep-nth [coll n]
             (keep-indexed #(if (= (mod (inc %1) n) 0) %2) coll))
           (reverse-interleave-internal [coll shift]
             (when (>= shift 0)
-              (cons
-                (keep-nth
-                  (if (> shift 0) (concat (repeat shift nil) coll) coll) n)
-                (reverse-interleave-internal coll (dec shift)))))]
+              (cons (keep-nth (if (> shift 0)
+                                (concat (repeat shift nil)
+                                        coll)
+                                coll)
+                              n)
+                    (reverse-interleave-internal coll (dec shift)))))]
     (reverse-interleave-internal coll (dec n))))
+
+;; simpler :)
+(defn reverse-interleave [coll n]
+  (apply map list (partition n coll)))
 
 ; This is simpler :)
 (defn reverse-interleave-simpler [coll n]
@@ -329,5 +335,9 @@
 (defn insert
   "Returns a seq of 'coll' elements with 'item' inserted
    between each two consecutive elements that satisfy two-argument 'pred?'"
-  [item pred? [h & t :as coll]]
-  (if h (cons h (mapcat #(if (pred? %1 %2) [item %2] [%2]) coll t))))
+  [item pred? [head & tail :as coll]]
+  (if head
+    (cons head
+          (mapcat #(if (pred? %1 %2) [item %2] [%2])
+                  coll
+                  tail))))
