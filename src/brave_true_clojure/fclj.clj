@@ -341,3 +341,8 @@
           (mapcat #(if (pred? %1 %2) [item %2] [%2])
                   coll
                   tail))))
+
+;; 147 Pascal's Trapezoid
+(defn pascal-trapezoid [v]
+  (iterate #(vec (map + (cons 0 %) (conj % 0)))
+           v))
