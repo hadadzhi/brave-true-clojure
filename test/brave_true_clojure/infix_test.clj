@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [brave-true-clojure.infix :refer :all]))
 
-(deftest infix-macro
+(deftest test-infix
   (testing "Operators and precedence"
     (is (= 31/5 (infix 1 + 2 * 3 - 4 / 5)))
     (is (= (+ 1 (mod 2 -3)) (infix 1 + 2 mod -3)))
