@@ -334,8 +334,9 @@
 
 ;; 132 Insert between
 (defn insert
-  "Returns a seq of 'coll' elements with 'item' inserted
-   between each two consecutive elements that satisfy two-argument 'pred?'"
+  "Returns a seq of elements of coll with item inserted
+   between each two consecutive elements that satisfy the
+   two-argument predicate pred?"
   [item pred? [head & tail :as coll]]
   (if head
     (cons head
