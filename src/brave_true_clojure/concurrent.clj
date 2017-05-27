@@ -16,4 +16,7 @@
     (future (give-gift giver recv2))
     (future (give-gift giver recv3))
     (Thread/sleep 10)
-    {:giver @giver :recv1 @recv1 :recv2 @recv2 :recv3 @recv3}))
+    {:giver @giver
+     :recv1 @recv1
+     :recv2 @recv2
+     :recv3 @recv3}))
