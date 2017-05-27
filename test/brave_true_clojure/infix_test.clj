@@ -21,13 +21,12 @@
       (is (= (/ (* x y) z) (infix x * y / z)))))
 
   (testing "Bad syntax"
-    (let [valid-infix? #'brave-true-clojure.infix/valid-infix?]
-      (is (not (valid-infix? ['+])))
-      (is (not (valid-infix? [])))
-      (is (not (valid-infix? [[]])))
-      (is (not (valid-infix? [[] '+ 1])))
-      (is (not (valid-infix? [1 - 2 '+])))
-      (is (not (valid-infix? ['+ 1 - 2])))
-      (is (not (valid-infix? [1 2])))
-      (is (not (valid-infix? [1 [2]])))
-      (is (not (valid-infix? [[1] 2]))))))
+    (is (not (valid-infix? ['+])))
+    (is (not (valid-infix? [])))
+    (is (not (valid-infix? [[]])))
+    (is (not (valid-infix? [[] '+ 1])))
+    (is (not (valid-infix? [1 - 2 '+])))
+    (is (not (valid-infix? ['+ 1 - 2])))
+    (is (not (valid-infix? [1 2])))
+    (is (not (valid-infix? [1 [2]])))
+    (is (not (valid-infix? [[1] 2])))))

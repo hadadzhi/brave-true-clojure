@@ -35,7 +35,7 @@
         (recur (rest tokens) (conj stack token)))
       (first stack))))
 
-(defn- valid-infix? [tokens]
+(defn valid-infix? [tokens]
   (if (seq tokens)
     (loop [tokens tokens, prev nil]
       (if-let [curr (first tokens)]
