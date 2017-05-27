@@ -24,13 +24,15 @@
   [char-sets] {:pre  [(seq char-sets)
                       (every? #(or (predefined-char-sets %)
                                    (string? %)
-                                   (and (seq? %) (every? char? %)))
+                                   (and (seqable? %)
+                                        (every? char? %)))
                               char-sets)]
                :post [(vector? %)
                       (every? char %)]}
-  (vec (mapcat #(if-let [char-set (predefined-char-sets %)]
-                  char-set
-                  (seq %))
+  (vec (reduce #(into %1
+                      (or (predefined-char-sets %2)
+                          (set (seq %2))))
+               #{}
                char-sets)))
 
 (defn gen-password

@@ -49,7 +49,8 @@
   [s] {:pre  [(set? s)]
        :post [(or (and (empty? %) (empty? s))
                   (and (== (count %) (fac (count s)))
-                       (every? #(= (set %) s) %)))]}
+                       (every? #(= (set %) s) %)
+                       (apply distinct? %)))]}
   (when (seq s)
     (if (seq (rest s))
       (for [e s, p (permutations (disj s e))]

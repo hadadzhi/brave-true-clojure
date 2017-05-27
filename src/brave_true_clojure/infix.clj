@@ -10,7 +10,7 @@
   (operators token))
 
 (defn- infix-to-rpn
-  "Praise Dijkstra for this shunting-yard algorithm"
+  "Praise Dijkstra for this shunting-yard algorithm!"
   [tokens]
   (loop [tokens tokens, stack (), output []]
     (if-let [token (first tokens)]
@@ -54,8 +54,8 @@
         true))))
 
 (defmacro infix
-  "Use [] for grouping, use () for arbitrary Clojure calls"
+  "Use [] for grouping, use () for arbitrary Clojure calls."
   [& tokens]
   (if (valid-infix? tokens)
     (rpn-to-prefix (infix-to-rpn tokens))
-    (throw (IllegalArgumentException. "bad syntax"))))
+    (throw (IllegalArgumentException. "Bad infix!"))))
