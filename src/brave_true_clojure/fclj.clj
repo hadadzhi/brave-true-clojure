@@ -261,7 +261,7 @@
   (let [d (fn [self i j]
             (let [i-1 (dec i)
                   j-1 (dec j)
-                  c (if (not= (get a i-1) (get b j-1)) 1 0)]
+                  c   (if (not= (get a i-1) (get b j-1)) 1 0)]
               (if (= 0 (min i j))
                 (max i j)
                 (min (+ 1 (self self i-1 j))
@@ -328,7 +328,7 @@
   [f]
   (fn [& args]
     (let [throw-arity #(throw (ArityException. (count args) (str f)))
-          result (reduce #(if (fn? %1) (%1 %2) (throw-arity)) f args)]
+          result      (reduce #(if (fn? %1) (%1 %2) (throw-arity)) f args)]
       (if (fn? result) (throw-arity) result))))
 
 ;; 132 Insert between

@@ -7,7 +7,7 @@
   [& sets]
   (if (empty? sets)
     '(())
-    (for [x (first sets)
+    (for [x    (first sets)
           more (apply cartesian (rest sets))]
       (cons x more))))
 

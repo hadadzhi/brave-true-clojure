@@ -46,7 +46,7 @@
                                 (> length 0)]
                          :post [(string? %)
                                 (== length (count %))]}
-   (let [cs (char-vec char-sets)
+   (let [cs  (char-vec char-sets)
          csl (count cs)]
      (apply str
             (take length
