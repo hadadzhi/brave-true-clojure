@@ -161,7 +161,8 @@
        (loop [s (seq tri), sum sum, n n]
          (if-let [row (first s)]
            (let [li n, ri (inc n), l (row li), r (row ri)]
-             (if (< (walk-triangle (next s) li l) (walk-triangle (next s) ri r))
+             (if (< (walk-triangle (next s) li l)
+                    (walk-triangle (next s) ri r))
                (recur (next s) (+ sum l) li)
                (recur (next s) (+ sum r) ri)))
            sum)))) triangle 0N 0N))
