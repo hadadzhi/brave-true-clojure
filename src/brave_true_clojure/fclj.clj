@@ -328,9 +328,16 @@
   "Prettier and faster!"
   [f]
   (fn [& args]
-    (let [throw-arity #(throw (ArityException. (count args) (str f)))
-          result      (reduce #(if (fn? %1) (%1 %2) (throw-arity)) f args)]
-      (if (fn? result) (throw-arity) result))))
+    (let [throw-arity #(throw (ArityException. (count args)
+                                               (str f)))
+          result      (reduce #(if (fn? %1)
+                                 (%1 %2)
+                                 (throw-arity))
+                              f
+                              args)]
+      (if (fn? result)
+        (throw-arity)
+        result))))
 
 ;; 132 Insert between
 (defn insert
