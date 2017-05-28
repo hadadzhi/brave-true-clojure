@@ -56,3 +56,26 @@
       (for [e s, p (permutations (disj s e))]
         (cons e (flatten p)))
       (list (list (first s))))))
+
+(defn clamp
+  "Clamps the value between min and max inclusive."
+  [value min max] {:pre  [(every? number? [value min max])
+                          (<= min max)]
+                   :post [(number? %)
+                          (<= min % max)]}
+  (cond (<= value min) min
+        (>= value max) max
+        :else value))
+
+(defn ins
+  "Inserts e at index i into coll v. Returns a vector.
+   If i < 0, e is inserted at the head.
+   If i > (count v), e is inserted at the tail."
+  [e i v] {:pre  [(integer? i)
+                  (coll? v)]
+           :post [(let [i (clamp i 0 (count v))]
+                    (and (= e (% i))
+                         (= (subvec v 0 i) (subvec % 0 i))
+                         (= (subvec % (inc i)) (subvec v i))))]}
+  (let [[l r] (split-at i v)]
+    (vec (concat l `(~e) r))))
