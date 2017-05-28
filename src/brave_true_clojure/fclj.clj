@@ -354,3 +354,13 @@
 (defn pascal-trapezoid [v]
   (iterate #(vec (map + (cons 0 %) (conj % 0)))
            v))
+
+;; 115 The Balance of N
+(defn balanced? [n]
+  (let [sn  (str n)
+        hl  (int (/ (count sn) 2))
+        sum (fn [chars] (->> chars
+                             (map #(- (int %) 48))
+                             (reduce +)))]
+    (== (sum (take hl sn))
+        (sum (take hl (reverse sn))))))
