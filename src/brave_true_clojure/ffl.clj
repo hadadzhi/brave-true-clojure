@@ -1,14 +1,14 @@
 (ns brave-true-clojure.ffl
   (:require [brave-true-clojure.factorial :refer :all]))
 
-(defn cartesian
+(defn cartp
   "Returns the cartesian product of the arguments as a list of lists.
    Arguments must be seq-able."
   [& sets]
   (if (empty? sets)
     '(())
     (for [x    (first sets)
-          more (apply cartesian (rest sets))]
+          more (apply cartp (rest sets))]
       (cons x more))))
 
 (defn combs
@@ -16,7 +16,7 @@
    with length less than or equal to max-len."
   [elems max-len]
   (for [l (range 1 (inc max-len))]
-    (apply cartesian (repeat l (set elems)))))
+    (apply cartp (repeat l (set elems)))))
 
 (defn roman-nums
   [max-len]
@@ -63,8 +63,8 @@
                           (<= min max)]
                    :post [(number? %)
                           (<= min % max)]}
-  (cond (<= value min) min
-        (>= value max) max
+  (cond (< value min) min
+        (> value max) max
         :else value))
 
 (defn ins
