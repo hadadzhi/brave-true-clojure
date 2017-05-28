@@ -282,13 +282,12 @@
 
 ;; 86 Happy numbers
 (defn happy? [number]
-  (cond
-    (== 1 number) true
-    (== 4 number) false
-    :else (recur (->> (str number)
-                      (map #(- (int %) 48))
-                      (map #(* % %))
-                      (reduce +)))))
+  (cond (== 1 number) true
+        (== 4 number) false
+        :else (recur (->> (str number)
+                          (map #(- (int %) 48))
+                          (map #(* % %))
+                          (reduce +)))))
 
 ;; 146 Trees into tables
 (defn mflatten [m]
