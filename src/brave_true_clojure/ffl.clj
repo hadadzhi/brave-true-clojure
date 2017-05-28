@@ -78,4 +78,4 @@
                          (= (subvec v 0 i) (subvec % 0 i))
                          (= (subvec % (inc i)) (subvec v i))))]}
   (let [[l r] (split-at i v)]
-    (vec (concat l `(~e) r))))
+    (vec (concat l (list e) r))))
