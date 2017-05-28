@@ -58,7 +58,7 @@
       (list (list (first s))))))
 
 (defn clamp
-  "Clamps the value between min and max inclusive."
+  "Clamps value to [min; max]."
   [value min max] {:pre  [(every? number? [value min max])
                           (<= min max)]
                    :post [(number? %)
