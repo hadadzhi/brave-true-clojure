@@ -68,17 +68,17 @@
   (reduce (fn [m w] (assoc m w (inc (m w 0)))) {} coll))
 
 ;; #60 Reductions
-(defn toy-reductions
+(defn reductions-
   ([f coll]
    (lazy-seq
      (if-let [s (seq coll)]
-       (toy-reductions f (first s) (rest s))
+       (reductions- f (first s) (rest s))
        (list (f)))))
   ([f init coll]
    (lazy-seq
      (if-let [s (seq coll)]
-       (cons init (toy-reductions f (f init (first s)) (rest s)))
-       (list (f init))))))
+       (cons init (reductions- f (f init (first s)) (rest s)))
+       (list init)))))
 
 ;; #65 Black box testing
 (defn which [coll]
