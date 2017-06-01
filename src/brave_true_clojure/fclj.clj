@@ -100,37 +100,35 @@
     (take n (filter #(prime? %) (iterate inc 1)))))
 
 ;; #73 Крестики-нолики
+;; The board is a vector of vectors, like this:
+;; [[:e :e :x]
+;;  [:e :x :e]
+;;  [:x :e :e]]
+(defn square-matrix? [m]
+  (and (vector? m)
+       (every? vector? m)
+       (let [d (count m)]
+         (every? #(= (count %) d) m))))
+
 (defn transpose [m]
-  (apply map vector m))
+  (vec (apply map vector m)))
 
-(defn major-diagonal [m]
-  (loop [res [], n 0]
-    (let [row (m n)]
-      (if (< n (dec (count row)))
-        (recur (conj res (row n)) (inc n))
-        (conj res (row n))))))
+(defn major-diagonal [m] {:pre [(square-matrix? m)]}
+  (vec (map-indexed #(%2 %1) m)))
 
-(defn minor-diagonal [m]
-  (loop [res [], n 0]
-    (let [row (vec (reverse (m n)))]
-      (if (< n (dec (count row)))
-        (recur (conj res (row n)) (inc n))
-        (conj res (row n))))))
+(defn minor-diagonal [m] {:pre [(square-matrix? m)]}
+  (major-diagonal (vec (reverse (apply map vector m)))))
 
-(defn won-by [player board]
+(defn won-by? [player board]
   (let [row [player player player]]
-    (boolean
-      (or
-        (some #{row} board)
+    (or (some #{row} board)
         (some #{row} (transpose board))
         (= row (major-diagonal board))
-        (= row (minor-diagonal board))))))
+        (= row (minor-diagonal board)))))
 
-(defn who-won [board]
-  (cond
-    (won-by :x board) :x
-    (won-by :o board) :o
-    :else nil))
+(defn winner [board]
+  (cond (won-by? :x board) :x
+        (won-by? :o board) :o))
 
 ;; #75 Euler's Totient function
 (defn euler-totient [x]
