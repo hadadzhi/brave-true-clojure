@@ -1,11 +1,6 @@
 (ns brave-true-clojure.fclj
   (:import (clojure.lang ArityException)))
 
-(defn fac [n]
-  (if (< n 0)
-    (throw (new IllegalArgumentException))
-    (reduce *' (range 1 (inc n)))))
-
 (defn fib-seq []
   ((fn fib-internal [curr next]
      (lazy-seq (cons curr (fib-internal next (+ curr next))))) 1N 1N))
