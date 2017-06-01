@@ -1,5 +1,13 @@
 (ns brave-true-clojure.ffl
-  (:require [brave-true-clojure.factorial :refer :all]))
+  (:require [clojure.core.reducers :refer [fold]]))
+
+(defn factorial
+  "Computes the factorial the fancy way."
+  [n] {:pre  [(>= n 0)]
+       :post [(integer? %)]}
+  (cond (<= n 1) 1
+        (<= n 20) (* n (factorial (- n 1)))
+        :else (fold *' (vec (range 1 (inc n))))))
 
 (defn cartp
   "Returns the cartesian product of the arguments as a list of lists.
@@ -48,7 +56,7 @@
    Returns a sequence of sequences."
   [s] {:pre  [(set? s)]
        :post [(or (and (empty? %) (empty? s))
-                  (and (== (count %) (fac (count s)))
+                  (and (== (count %) (factorial (count s)))
                        (every? #(= (set %) s) %)
                        (apply distinct? %)))]}
   (when (seq s)

@@ -1,5 +1,5 @@
 (ns brave-true-clojure.password
-  (:import (java.security SecureRandom))
+  (:import [java.security SecureRandom])
   (:require [brave-true-clojure.ffl :refer [char-range]]))
 
 (def ^:private secure-random (SecureRandom.))
