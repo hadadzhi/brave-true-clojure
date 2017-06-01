@@ -48,8 +48,7 @@
                                 (== length (count %))]}
    (let [cs  (char-vec char-sets)
          csl (count cs)]
-     (apply str
-            (take length
-                  (repeatedly #(cs (secure-random-index csl)))))))
+     (apply str (->> (repeatedly #(cs (secure-random-index csl)))
+                     (take length)))))
   ([length] (gen-password length :small :capital :digits))
   ([] (gen-password 32)))
