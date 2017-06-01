@@ -337,7 +337,7 @@
         result))))
 
 ;; 132 Insert between
-(defn insert
+(defn insert-between
   "Returns a seq of elements of coll with item inserted
    between each two consecutive elements that satisfy the
    two-argument predicate pred?"

@@ -67,7 +67,7 @@
         (> value max) max
         :else value))
 
-(defn ins
+(defn insert
   "Inserts e at index i into coll v. Returns a vector.
    If i < 0, e is inserted at the head.
    If i > (count v), e is inserted at the tail."
