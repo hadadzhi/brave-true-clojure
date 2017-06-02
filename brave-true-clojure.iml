@@ -16,11 +16,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: criterium:0.4.4" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.9.0-alpha16" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.9.0-alpha17" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.1.10" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/math.combinatorics:0.1.4" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/math.numeric-tower:0.0.4" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/spec.alpha:0.1.94" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/spec.alpha:0.1.123" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.12" level="project" />
   </component>
 </module>
