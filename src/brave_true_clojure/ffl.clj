@@ -121,9 +121,10 @@
         (concat deletions insertions replacements transpositions)))))
 
 (defn norvig-typo-corrector
-  "Returns a fn that takes a word and returns a most probable correction.
+  "Returns a fn that takes a word and
+   returns the most probable correction.
    Parameters:
-   wc - a map of words to their wc,
+   wc - a map from words to their frequencies,
    alphabet - a sequence of all characters in the alphabet."
   [wc alphabet] {:pre [(every? char? alphabet)
                        (every? #(and (string? (first %))

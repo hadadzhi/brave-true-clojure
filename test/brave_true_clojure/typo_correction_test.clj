@@ -3,14 +3,14 @@
             [brave-true-clojure.ffl :refer [char-range
                                             norvig-typo-corrector]]))
 
-(deftest test-type-correction
+(deftest test-typo-correction
   (let [f (->> (slurp "http://norvig.com/big.txt")
                (.toLowerCase)
                (re-seq #"[a-z]+")
                (frequencies))
         a (char-range \a \z)
         c (norvig-typo-corrector f a)]
-    (testing "Original norvig suite"
+    (testing "Norvig's tests"
       (is (= "spelling" (c "speling")))
       (is (= "corrected" (c "korrectud")))
       (is (= "bicycle" (c "bycycle")))
