@@ -101,7 +101,7 @@
 (defn edits
   "Returns a seq of distinct results of applying
    n simple edits to word, where n > 0."
-  [n alphabet word] {:pre [(> n 0)]}
+  [n alphabet word] {:pre [(> n 0) (every? char? alphabet) (string? word)]}
   (distinct
     (if (> n 1)
       (mapcat (partial edits 1 alphabet)
@@ -123,16 +123,16 @@
 (defn norvig-typo-corrector
   "Returns a fn that takes a word and returns a most probable correction.
    Parameters:
-   frequencies - a map of words to their frequencies,
+   wc - a map of words to their wc,
    alphabet - a sequence of all characters in the alphabet."
-  [frequencies alphabet] {:pre [(every? char? alphabet)
-                                (every? #(and (string? (first %))
-                                              (integer? (second %)))
-                                        frequencies)]}
+  [wc alphabet] {:pre [(every? char? alphabet)
+                       (every? #(and (string? (first %))
+                                     (integer? (second %)))
+                               wc)]}
   (fn [word]
     (apply max-key
-           #(get frequencies % 1)
-           (or (not-empty (filter frequencies [word]))
-               (not-empty (filter frequencies (edits 1 alphabet word)))
-               (not-empty (filter frequencies (edits 2 alphabet word)))
+           #(get wc % 1)
+           (or (not-empty (filter wc [word]))
+               (not-empty (filter wc (edits 1 alphabet word)))
+               (not-empty (filter wc (edits 2 alphabet word)))
                [word]))))
