@@ -28,7 +28,7 @@
   (loop [tokens rpn, stack ()]
     (if-let [token (first tokens)]
       (if (operator? token)
-        (let [left  (second stack),
+        (let [left (second stack),
               right (first stack),
               stack (rest (rest stack))]
           (recur (rest tokens) (conj stack (list token left right))))

@@ -29,8 +29,8 @@
 
 (defn hit [asym-body-parts]
   (let [body-parts (symmetrize-parts asym-body-parts)
-        body-size  (reduce + (map :size body-parts))
-        target     (rand body-size)
+        body-size (reduce + (map :size body-parts))
+        target (rand body-size)
         detect-hit (fn [prev-acc-size part]
                      (let [acc-size (+ prev-acc-size (part :size))]
                        (if (> acc-size target) (reduced part) acc-size)))]
