@@ -4,7 +4,7 @@
                                             norvig-typo-corrector]]))
 
 (deftest test-typo-correction
-  (let [f (->> (slurp "http://norvig.com/big.txt")
+  (let [f (->> (slurp "resources/big.txt")
                (.toLowerCase)
                (re-seq #"[a-z]+")
                (frequencies))

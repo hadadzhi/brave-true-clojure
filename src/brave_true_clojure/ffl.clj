@@ -128,8 +128,7 @@
    alphabet - a sequence of all characters in the alphabet."
   [wc alphabet] {:pre [(every? char? alphabet)
                        (every? #(and (string? (first %))
-                                     (integer? (second %)))
-                               wc)]}
+                                     (integer? (second %))) wc)]}
   (fn [word]
     (apply max-key
            #(get wc % 1)
