@@ -22,13 +22,13 @@
     (set (apply cartesian-seq s1 s2 ss))))
 
 (defn combinations
-  "Returns all possible combinations of elems
-   with length less than or equal to max-len."
-  [elems max-len]
+  "Returns all possible combinations of elems (seqable)
+   of length less than or equal to max-len."
+  [elems max-len] {:pre [(seqable? elems) (> max-len 0)]}
   (apply concat
          (map list elems)
          (for [l (range 2 (inc max-len))]
-           (apply cartesian (repeat l (set elems))))))
+           (apply cartesian (repeat l elems)))))
 
 (defn roman-nums
   [max-len]
@@ -42,15 +42,14 @@
       (reduce #(if (sequential? %2)
                  (into %1 (flatten- %2))
                  (conj %1 %2))
-              [] coll))
+              []
+              coll))
     (lazy-seq)))
 
 (defn char-range
   "Returns a sequence of chars from a to b inclusive."
-  [a b] {:pre [(char? a)
-               (char? b)]
-         :post [(seq? %)
-                (every? char? %)]}
+  [a b] {:pre [(every? char? [a b])]
+         :post [(seq? %) (every? char? %)]}
   (map char
        (range (int a)
               (inc (int b)))))
