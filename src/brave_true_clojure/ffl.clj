@@ -1,6 +1,5 @@
 (ns brave-true-clojure.ffl
-  (:require [clojure.core.reducers :refer [fold]])
-  (:import (java.io StringWriter)))
+  (:require [clojure.core.reducers :refer [fold]]))
 
 (defn factorial
   "Computes the factorial the fancy way."
@@ -10,28 +9,32 @@
         (<= n 20) (* n (factorial (- n 1)))
         :else (fold *' (vec (range 1 (inc n))))))
 
-(defn cartp
-  "Returns the cartesian product of the arguments as a list of lists.
-   Arguments must be seq-able."
-  [& sets]
-  (if (empty? sets)
-    '(())
-    (for [x (first sets)
-          more (apply cartp (rest sets))]
-      (cons x more))))
+(defn cartesian
+  "Returns the cartesian product. Arguments must be seq-able."
+  [s1 s2 & ss] {:pre [(every? seqable? (conj ss s1 s2))]}
+  (letfn [(cartesian-seq
+            ([s1 s2]
+             (for [a s1, b s2]
+               (list a b)))
+            ([s1 s2 & ss]
+             (for [a s1, b (apply cartesian-seq s2 ss)]
+               (cons a b))))]
+    (set (apply cartesian-seq s1 s2 ss))))
 
-(defn combs
+(defn combinations
   "Returns all possible combinations of elems
    with length less than or equal to max-len."
   [elems max-len]
-  (for [l (range 1 (inc max-len))]
-    (apply cartp (repeat l (set elems)))))
+  (apply concat
+         (map list elems)
+         (for [l (range 2 (inc max-len))]
+           (apply cartesian (repeat l (set elems))))))
 
 (defn roman-nums
   [max-len]
   (flatten
-    (map (partial map (partial apply str))
-         (combs "IVXLCDM" max-len))))
+    (map (partial apply str)
+         (combinations "IVXLCDM" max-len))))
 
 (defn flatten- [coll]
   (if (sequential? coll)
