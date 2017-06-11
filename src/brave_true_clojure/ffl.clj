@@ -117,6 +117,8 @@
                                   (subs word (+ 2 i))))]
         (concat deletions insertions replacements transpositions)))))
 
+(alter-var-root #'edits memoize)
+
 (defn norvig-typo-corrector
   "Returns a fn that takes a word and
    returns the most probable correction.
@@ -126,10 +128,11 @@
   [wc alphabet] {:pre [(every? char? alphabet)
                        (every? #(and (string? (first %))
                                      (integer? (second %))) wc)]}
-  (fn [word]
-    (apply max-key
-           #(get wc % 1)
-           (or (not-empty (filter wc [word]))
-               (not-empty (filter wc (edits 1 alphabet word)))
-               (not-empty (filter wc (edits 2 alphabet word)))
-               [word]))))
+  (memoize
+    (fn [word]
+      (apply max-key
+             #(get wc % 1)
+             (or (not-empty (filter wc [word]))
+                 (not-empty (filter wc (edits 1 alphabet word)))
+                 (not-empty (filter wc (edits 2 alphabet word)))
+                 [word])))))
