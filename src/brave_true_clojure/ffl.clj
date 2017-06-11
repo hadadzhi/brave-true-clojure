@@ -31,9 +31,8 @@
            (apply cartesian (repeat l elems)))))
 
 (defn roman-nums [max-len]
-  (flatten
-    (map (partial apply str)
-         (combinations "IVXLCDM" max-len))))
+  (map (partial apply str)
+       (combinations "IVXLCDM" max-len)))
 
 (defn flatten- [coll]
   (if (sequential? coll)
