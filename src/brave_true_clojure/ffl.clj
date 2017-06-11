@@ -14,10 +14,10 @@
   [s1 s2 & ss] {:pre [(every? seqable? (conj ss s1 s2))]}
   (letfn [(cartesian-seq
             ([s1 s2]
-             (for [a s1, b s2]
+             (for [a (set s1), b (set s2)]
                (list a b)))
             ([s1 s2 & ss]
-             (for [a s1, b (apply cartesian-seq s2 ss)]
+             (for [a (set s1), b (apply cartesian-seq s2 ss)]
                (cons a b))))]
     (set (apply cartesian-seq s1 s2 ss))))
 
