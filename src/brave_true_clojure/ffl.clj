@@ -30,8 +30,7 @@
          (for [l (range 2 (inc max-len))]
            (apply cartesian (repeat l elems)))))
 
-(defn roman-nums
-  [max-len]
+(defn roman-nums [max-len]
   (flatten
     (map (partial apply str)
          (combinations "IVXLCDM" max-len))))
@@ -95,10 +94,7 @@
 (defn frequencies-
   "Counts the frequencies of each distinct element in s."
   [s]
-  (reduce (fn [fm e]
-            (assoc fm e (inc (fm e 0))))
-          {}
-          s))
+  (reduce #(assoc %1 %2 (inc (%1 %2 0))) {} s))
 
 (defn edits
   "Returns a seq of distinct results of applying
