@@ -209,19 +209,8 @@
 ;; Cards
 (defn card [card-str]
   (let [suits {\H :heart, \D :diamond, \C :club, \S :spade}
-        ranks {\2 0,
-               \3 1,
-               \4 2,
-               \5 3,
-               \6 4,
-               \7 5,
-               \8 6,
-               \9 7,
-               \T 8,
-               \J 9,
-               \Q 10,
-               \K 11,
-               \A 12}]
+        ranks {\2 0, \3 1, \4 2, \5 3, \6 4, \7 5, \8 6, \9 7,
+               \T 8, \J 9, \Q 10, \K 11, \A 12}]
     (if (= 2 (count card-str))
       {:suit (suits (first card-str)),
        :rank (ranks (second card-str))})))
