@@ -133,3 +133,11 @@
                  (not-empty (filter wc (edits 1 alphabet word)))
                  (not-empty (filter wc (edits 2 alphabet word)))
                  [word])))))
+
+(defn wrand [slices]
+  (let [total (reduce + slices), r (rand total)]
+    (loop [i 0, sum 0]
+      (let [sum (+ (slices i) sum)]
+        (if (< r sum)
+          i
+          (recur (inc i) sum))))))
