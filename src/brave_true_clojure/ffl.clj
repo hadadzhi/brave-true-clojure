@@ -96,13 +96,11 @@
   (reduce #(assoc %1 %2 (inc (%1 %2 0))) {} s))
 
 (defn edits
-  "Returns a seq of distinct results of applying
-   n simple edits to word, where n > 0."
+  "Returns a set of results of applying n simple edits to word, where n > 0."
   [n alphabet word] {:pre [(> n 0) (every? char? alphabet) (string? word)]}
-  (distinct
+  (set
     (if (> n 1)
-      (mapcat (partial edits 1 alphabet)
-              (edits (- n 1) alphabet word))
+      (mapcat (partial edits 1 alphabet) (edits (- n 1) alphabet word))
       (let [length (count word)
             deletions (for [i (range length)]
                         (str (subs word 0 i) (subs word (inc i))))
@@ -120,8 +118,7 @@
 (alter-var-root #'edits memoize)
 
 (defn norvig-typo-corrector
-  "Returns a fn that takes a word and
-   returns the most probable correction.
+  "Returns a fn that takes a word and returns the most probable correction.
    Parameters:
    wc - a map from words to their frequencies,
    alphabet - a sequence of all characters in the alphabet."

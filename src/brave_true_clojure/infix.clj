@@ -9,7 +9,7 @@
 (defn- precedence [token]
   (operators token))
 
-(defn- infix-to-rpn
+(defn infix-to-rpn
   "Praise Dijkstra for this shunting-yard algorithm!"
   [tokens]
   (loop [tokens tokens, stack (), output []]
@@ -24,7 +24,7 @@
                                      (conj output token))))
       (into output stack))))
 
-(defn- rpn-to-prefix [rpn]
+(defn rpn-to-prefix [rpn]
   (loop [tokens rpn, stack ()]
     (if-let [token (first tokens)]
       (if (operator? token)
