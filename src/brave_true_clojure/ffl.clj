@@ -34,15 +34,13 @@
   (map (partial apply str)
        (combinations "IVXLCDM" max-len)))
 
-(defn flatten- [coll]
-  (if (sequential? coll)
-    (lazy-seq
-      (reduce #(if (sequential? %2)
-                 (into %1 (flatten- %2))
-                 (conj %1 %2))
-              []
-              coll))
-    (lazy-seq)))
+(defn flattenv
+  "flatten, but not lazy and returns a vector."
+  [coll] {:pre [(or (nil? coll ) (sequential? coll))]}
+  (reduce #(if (sequential? %2)
+             (into %1 (flattenv %2))
+             (conj %1 %2))
+          [] coll))
 
 (defn char-range
   "Returns a sequence of chars from a to b inclusive."
@@ -63,7 +61,7 @@
   (when (seq s)
     (if (seq (rest s))
       (for [e s, p (permutations (disj s e))]
-        (cons e (flatten p)))
+        (cons e (flattenv p)))
       (list (list (first s))))))
 
 (defn clamp
