@@ -346,3 +346,13 @@
                              (reduce +)))]
     (== (sum (take hl sn))
         (sum (take hl (reverse sn))))))
+
+;; 85 Power set
+(defn subsets [s]
+  (if (seq s)
+    (let [h (first s)
+          srs (subsets (rest s))]
+      (set (concat srs
+                   (map #(conj % h)
+                        srs))))
+    #{#{}}))
