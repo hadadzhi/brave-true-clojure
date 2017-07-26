@@ -334,8 +334,7 @@
 
 ;; 147 Pascal's Trapezoid
 (defn pascal-trapezoid [v]
-  (iterate #(vec (map + (cons 0 %) (conj % 0)))
-           v))
+  (iterate #(vec (map + (cons 0 %) (conj % 0))) v))
 
 ;; 115 The Balance of N
 (defn balanced? [n]
