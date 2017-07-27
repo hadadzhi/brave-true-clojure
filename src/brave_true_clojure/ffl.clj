@@ -112,7 +112,6 @@
                                   (nth word i)
                                   (subs word (+ 2 i))))]
         (concat deletions insertions replacements transpositions)))))
-
 (alter-var-root #'edits memoize)
 
 (defn norvig-typo-corrector
