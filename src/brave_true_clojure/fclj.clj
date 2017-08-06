@@ -375,3 +375,17 @@
       (if (zero? (first s))
         (subvec s 1)
         s))))
+
+;; 144 Oscilrate
+(defn oscilrate-1 [e & fs]
+  (lazy-seq
+    (cons e
+          (apply oscilrate-1
+                 ((first fs) e)
+                 (rest (cycle fs))))))
+
+;; 1.7x slower
+(defn oscilrate-2 [e & fs]
+  (reductions #(%2 %1)
+              e
+              (cycle fs)))
