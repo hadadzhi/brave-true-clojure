@@ -355,3 +355,13 @@
                    (map #(conj % h)
                         srs))))
     #{#{}}))
+
+;; 105 Identify keys and values
+(defn v->m [v]
+  (loop [v v, k nil, m {}]
+    (let [e (first v)]
+      (if (keyword? e)
+        (recur (rest v) e (assoc m e []))
+        (if (number? e)
+          (recur (rest v) k (assoc m k (conj (m k) e)))
+          m)))))
