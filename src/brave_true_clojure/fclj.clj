@@ -365,3 +365,13 @@
         (if (number? e)
           (recur (rest v) k (assoc m k (conj (m k) e)))
           m)))))
+
+;; 137 Digits and bases
+(defn digit-seq [n b] {:pre [(>= n 0) (>= b 0)]}
+  (if (zero? n)
+    [0]
+    (let [s (conj (digit-seq (quot n b) b)
+                  (rem n b))]
+      (if (zero? (first s))
+        (subvec s 1)
+        s))))
