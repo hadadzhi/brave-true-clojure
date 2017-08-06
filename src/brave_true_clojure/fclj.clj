@@ -367,7 +367,7 @@
           m)))))
 
 ;; 137 Digits and bases
-(defn digit-seq [n b] {:pre [(>= n 0) (>= b 0)]}
+(defn digit-seq [n b] {:pre [(>= n 0) (> b 1)]}
   (if (zero? n)
     [0]
     (let [s (conj (digit-seq (quot n b) b)
