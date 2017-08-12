@@ -389,3 +389,30 @@
   (reductions #(%2 %1)
               e
               (cycle fs)))
+
+;; 110 Sequence of pronunciations
+(defn pronunciations-1 [digit-seq]
+  (letfn [(pronunciation [digit-seq]
+            (loop [in (rest digit-seq), out [1], prev (first digit-seq)]
+              (if (seq in)
+                (if (== prev (first in))
+                  (recur (rest in)
+                         (assoc out
+                           (dec (count out))
+                           (inc (out (dec (count out)))))
+                         prev)
+                  (recur in
+                         (conj out prev 0)
+                         (first in)))
+                (conj out prev))))]
+    (let [p (pronunciation digit-seq)]
+      (lazy-seq
+        (cons p (pronunciations-1 p))))))
+
+;; 2x slower
+(defn pronunciations-2 [digit-seq]
+  (rest
+    (iterate #(vec
+                (mapcat (juxt count first)
+                        (partition-by identity %)))
+             digit-seq)))
