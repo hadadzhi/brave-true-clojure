@@ -443,3 +443,20 @@
                 (cons (first (second lr))
                       (take-up-to-nth (dec n) pred? (rest (second lr)))))
         (first lr)))))
+
+;; 103 Generating k-combinations
+(defn combinations [k es]
+  (letfn [(cartesian-seq
+            ([s1 s2]
+             (for [a (set s1), b (set s2)]
+               (list a b)))
+            ([s1 s2 & ss]
+             (for [a (set s1), b (apply cartesian-seq s2 ss)]
+               (cons a b))))]
+    (cond (or (= 0 k) (> k (count es))) #{}
+          (= 1 k) (set (map hash-set es))
+          :else (->> (apply cartesian-seq (repeat k es))
+                     (map set)
+                     (distinct)
+                     (filter #(= k (count %)))
+                     (set)))))
