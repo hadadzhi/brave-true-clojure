@@ -416,3 +416,16 @@
 
 (defn prons [s]
   (rest (iterate pron s)))
+
+;; 113 Global take-while
+(defn take-up-to-nth
+  "Returns a lazy sequence of items in s up to, but not including,
+   the nth item that satisfies the predicate."
+  [n pred? s]
+  (lazy-seq
+    (let [lr (split-with (complement pred?) s)]
+      (if (> n 1)
+        (concat (first lr)
+                (cons (first (second lr))
+                      (take-up-to-nth (dec n) pred? (rest (second lr)))))
+        (first lr)))))
