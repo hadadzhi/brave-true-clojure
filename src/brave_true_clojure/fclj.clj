@@ -253,14 +253,28 @@
     (d (memoize d) (count a) (count b))))
 
 ;; 92 Read Roman numerals
+(def r->d {\I 1, \V 5, \X 10, \L 50, \C 100, \D 500, \M 1000})
 (defn roman-to-decimal [roman-str]
-  (let [r->d {\I 1, \V 5, \X 10, \L 50, \C 100, \D 500, \M 1000}]
-    (loop [str roman-str, prev 0, output 0]
-      (if-let [curr (r->d (first str))]
-        (if (< prev curr)
-          (recur (rest str) curr (+ (- output prev) (- curr prev)))
-          (recur (rest str) curr (+ output curr)))
-        output))))
+  (loop [str roman-str, prev 0, output 0]
+    (if-let [curr (r->d (first str))]
+      (if (< prev curr)
+        (recur (rest str) curr (+ (- output prev) (- curr prev)))
+        (recur (rest str) curr (+ output curr)))
+      output)))
+
+;; 104 Write Roman numerals
+(def d->r [[1000 "M"] [900 "CM"] [500 "D"] [400 "CD"] [100 "C"]
+           [90 "XC"] [50 "L"] [40 "XL"] [10 "X"]
+           [9 "IX"] [5 "V"] [4 "IV"] [1 "I"]])
+(defn decimal-to-roman [n]
+  (cond (zero? n) ""
+        (< n 0) (str "-" (decimal-to-roman (- n)))
+        :else (let [sb (StringBuilder.), v (atom n)]
+                (doseq [[d r] d->r]
+                  (while (>= @v d)
+                    (swap! v - d)
+                    (.append sb r)))
+                (str sb))))
 
 ;; 86 Happy numbers
 (defn happy? [number]
