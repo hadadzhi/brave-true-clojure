@@ -3,7 +3,7 @@
 
 (defn factorial
   "Computes the factorial the fancy way."
-  [n] {:pre [(>= n 0)]
+  [n] {:pre  [(>= n 0)]
        :post [(integer? %)]}
   (cond (<= n 1) 1
         (<= n 20) (* n (factorial (- n 1)))
@@ -36,7 +36,7 @@
 
 (defn flattenv
   "flatten, but not lazy and returns a vector."
-  [coll] {:pre [(or (nil? coll ) (sequential? coll))]}
+  [coll] {:pre [(or (nil? coll) (sequential? coll))]}
   (reduce #(if (sequential? %2)
              (into %1 (flattenv %2))
              (conj %1 %2))
@@ -44,7 +44,7 @@
 
 (defn char-range
   "Returns a sequence of chars from a to b inclusive."
-  [a b] {:pre [(every? char? [a b])]
+  [a b] {:pre  [(every? char? [a b])]
          :post [(seq? %) (every? char? %)]}
   (map char
        (range (int a)
@@ -53,7 +53,7 @@
 (defn permutations
   "Computes all permutations of a set.
    Returns a sequence of sequences."
-  [s] {:pre [(set? s)]
+  [s] {:pre  [(set? s)]
        :post [(or (and (empty? %) (empty? s))
                   (and (== (count %) (factorial (count s)))
                        (every? #(= (set %) s) %)
@@ -66,8 +66,8 @@
 
 (defn clamp
   "Clamps value to [min; max]."
-  [value min max] {:pre [(every? number? [value min max])
-                         (<= min max)]
+  [value min max] {:pre  [(every? number? [value min max])
+                          (<= min max)]
                    :post [(number? %)
                           (<= min % max)]}
   (cond (< value min) min
@@ -78,8 +78,8 @@
   "Inserts e at index i into coll v. Returns a vector.
    If i < 0, e is inserted at the head.
    If i > (count v), e is inserted at the tail."
-  [e i v] {:pre [(integer? i)
-                 (coll? v)]
+  [e i v] {:pre  [(integer? i)
+                  (coll? v)]
            :post [(let [i (clamp i 0 (count v))]
                     (and (= e (% i))
                          (= (subvec v 0 i) (subvec % 0 i))
@@ -138,3 +138,29 @@
         (if (< r sum)
           i
           (recur (inc i) sum))))))
+
+(letfn [(fizzbuzzify [x]
+          (if (zero? x)
+            x
+            (if (zero? (rem x 15))
+              "fizzbuzz"
+              (if (zero? (rem x 3))
+                "fizz"
+                (if (zero? (rem x 5))
+                  "buzz"
+                  x)))))]
+  (defn fizzbuzz [start]
+    (lazy-seq
+      (cons (fizzbuzzify start)
+            (fizzbuzz (inc start))))))
+
+(defn fizzbuzz-1 []
+  (->> (range)
+       (map (fn [x]
+              [x (if (zero? (rem x 3)) "fizz")]))
+       (map (fn [[x s]]
+              [x (str s (if (zero? (rem x 5)) "buzz"))]))
+       (map #(if (or (zero? (first %))
+                     (empty? (second %)))
+               (first %)
+               (second %)))))
