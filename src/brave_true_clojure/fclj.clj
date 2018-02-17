@@ -1,5 +1,6 @@
 (ns brave-true-clojure.fclj
-  (:import (clojure.lang ArityException)))
+  (:import (clojure.lang ArityException))
+  (:require [brave-true-clojure.ffl :refer :all]))
 
 (defn fib-seq []
   ((fn fib-internal [curr next]
@@ -445,7 +446,7 @@
         (first lr)))))
 
 ;; 103 Generating k-combinations
-(defn combinations [k es]
+(defn kcombinations [k s]
   (letfn [(cartesian-seq
             ([s1 s2]
              (for [a (set s1), b (set s2)]
@@ -453,10 +454,16 @@
             ([s1 s2 & ss]
              (for [a (set s1), b (apply cartesian-seq s2 ss)]
                (cons a b))))]
-    (cond (or (= 0 k) (> k (count es))) #{}
-          (= 1 k) (set (map hash-set es))
-          :else (->> (apply cartesian-seq (repeat k es))
+    (cond (or (= 0 k) (> k (count s))) #{}
+          (= 1 k) (set (map hash-set s))
+          (= (count s) k) (set s)
+          :else (->> (apply cartesian-seq (repeat k s))
                      (map set)
                      (distinct)
                      (filter #(= k (count %)))
                      (set)))))
+
+(defn ncombinations [k n]
+  (/ (factorial n)
+     (* (factorial k)
+        (factorial (- n k)))))
