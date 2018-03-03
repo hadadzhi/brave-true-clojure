@@ -467,3 +467,20 @@
   (/ (factorial n)
      (* (factorial k)
         (factorial (- n k)))))
+
+;; 116 Balanced prime
+(defn balanced-prime? [n]
+  (letfn [(prime? [n]
+            (and (> n 1)
+                 (every? #(not= 0 (mod n %)) (range 2 n))))
+          (find-lower [n]
+            (when (> n 2)
+              (first (filter prime? (iterate dec (dec n))))))
+          (find-upper [n]
+            (when (> n 2)
+              (first (filter prime? (iterate inc (inc n))))))]
+    (true?
+      (and (prime? n)
+           (when-let [l (find-lower n)]
+             (when-let [u (find-upper n)]
+               (= n (/ (+ l u) 2))))))))
