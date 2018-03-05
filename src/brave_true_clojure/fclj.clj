@@ -484,3 +484,15 @@
            (when-let [l (find-lower n)]
              (when-let [u (find-upper n)]
                (= n (/ (+ l u) 2))))))))
+
+;; 121 Universal computation engine
+(defn compile-expr [expr]
+  (letfn [(self [expr vars]
+            (let [op {'+ +, '- -, '* *, '/ /}]
+              (if (list? expr)
+                (apply (op (first expr)) (map #(self % vars) (rest expr)))
+                (if (symbol? expr)
+                  (vars expr)
+                  expr))))]
+    (fn [vars]
+      (self expr vars))))
